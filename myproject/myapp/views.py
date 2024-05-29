@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 from .models import Message
 from .forms import MessageForm
 
@@ -24,9 +25,14 @@ def register(request):
 
 @login_required
 def message_list(request):
-    messages = Message.objects.all()
+    user_id = request.GET.get('user')
+    if user_id:
+        messages = Message.objects.filter(user_id=user_id)
+    else:
+        messages = Message.objects.all()
+    users = User.objects.all()
     form = MessageForm()
-    return render(request, 'message_list.html', {'messages': messages, 'form': form})
+    return render(request, 'message_list.html', {'messages': messages, 'form': form, 'users': users, 'selected_user': user_id})
 
 @login_required
 def add_message(request):
