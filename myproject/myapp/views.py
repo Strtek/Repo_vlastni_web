@@ -13,7 +13,7 @@ def home(request):
         'name': 'Stanislav Trtek',
         'current_time': current_time,
     }
-    return render(request, 'home.html', {'name': 'Stanislav Trtek'})
+    return render(request, 'home.html', context)
 
 def register(request):
     if request.method == 'POST':

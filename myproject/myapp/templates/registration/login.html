@@ -1,31 +1,26 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages</title>
+    <title>Přihlášení</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
     <div class="container">
         <h2>Přihlášení</h2>
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="message">
-                    <strong>{{ message.user.username }}</strong>
-                    <p>{{ message.content }}</p>
-                    <small>{{ message.timestamp }}</small>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="add-message">
-            <h3>Zadejte své jméno a heslo</h3>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Přihlásti se</button>
-            </form>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Přihlásit se</button>
+        </form>
+        <div class="nav-links">
+            <p>Nemáte účet? <a href="{% url 'register' %}">Registrujte se zde</a></p>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Domů</a>
         </div>
     </div>
 </body>
