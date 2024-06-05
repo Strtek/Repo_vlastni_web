@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Authorized</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Stanislav Trtek - Vzkazy</h1>
+        <nav>
+            <a href="{% url 'home' %}">Domů</a>
+            <a href="{% url 'login' %}">Přihlásit se</a>
+        </nav>
+    </header>
+    <main>
+        <section class="not-authorized">
+            <h2>Přístup odepřen</h2>
+            <p>K prohlížení a zanechání vzkazů se prosím přihlaste.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Stanislav Trtek</p>
+    </footer>
+</body>
+</html>

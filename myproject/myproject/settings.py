@@ -124,8 +124,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Přesměrování po přihlášení
-LOGIN_REDIRECT_URL = '/messages/'
+LOGIN_REDIRECT_URL = 'home'
 
 # Přesměrování po odhlášení
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'home'
 

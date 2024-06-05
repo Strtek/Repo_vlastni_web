@@ -3,10 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.utils import timezone
 from .models import Message
 from .forms import MessageForm
 
 def home(request):
+    current_time = timezone.now()
+    context = {
+        'name': 'Stanislav Trtek',
+        'current_time': current_time,
+    }
     return render(request, 'home.html', {'name': 'Stanislav Trtek'})
 
 def register(request):
@@ -46,3 +52,6 @@ def add_message(request):
     else:
         form = MessageForm()
     return render(request, 'add_message.html', {'form': form})
+
+def not_authorized(request):
+    return render(request, 'not_authorized.html')

@@ -1,20 +1,50 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Stanislav Trtek - Homepage</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h1>Vítejte na mém webu</h1>
-        <p>Moje jméno je Stanislav Trtek</p>
-        <div class="nav-links">
-            <a href="{% url 'login' %}">Přihlásit se</a> |
-            <a href="{% url 'register' %}">Registrace</a>
+    <header>
+        <h1>Vítejte na mé webové prezentaci</h1>
+        <nav>
+            <a href="{% url 'home' %}">Domů</a>
+            <a href="{% url 'message_list' %}">Vzkazy</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:white; cursor:pointer; text-decoration:underline; padding:0;">
+                        Odhlásit se
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Přihlásit se</a>
+            {% endif %}
+        </nav>
+        <div class="current-time">
+            <p>Dnes je: {{ current_time|date:"j. F Y H:i" }}</p>
         </div>
-    </div>
+    </header>
+    <main>
+        <section class="about-me">
+            <h2>Stanislav Trtek</h2>
+            <p>Mám-li prozradit základní informace o své osobě, nelze začít jinak než zmínit moji manželku Aničku, která je mojí ozdobou a současně největší oporou. Mezi mé největší zájmy patří přírodní vědy, matematika a cokoliv spojené s elektronikou. Žena by se divila, kdybych zde nezmínil fotbal, tak dobrá, i ten je mým koníčkem. :-) Ostatně jako většina sportů a to pasivně i aktivně. Nebudu moc přehánět, když řeknu, že jsem na kole projel téměř celou Evropu. Nyní se místo kola soustředím spíše na pěší výkony a tak se v létě chystáme s Aničkou na pěší pouť do rakouského Mariazell. Baví mě i má práce, ale o té jinde na téhle stránce. </p>
+        </section>
+        <section class="my-work">
+            <h2>Moje práce</h2>
+            <p>Pracuji jako vývojář a věnuji se různým projektům. Mám zkušenosti s vývojem webových aplikací, programováním a mnoha dalšími oblastmi.</p>
+        </section>
+        <section class="interesting-facts">
+            <h2>Zajímavosti</h2>
+            <p>V této sekci najdete různé zajímavosti a aktuality, které mě zaujaly.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Stanislav Trtek</p>
+    </footer>
 </body>
 </html>
