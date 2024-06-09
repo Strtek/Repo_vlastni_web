@@ -4,32 +4,36 @@
 
 {% block content %}
 <div class="container">
-    <h2>Messages</h2>
-    <form method="get" class="filter-form">
-        <label for="user">Filter by user:</label>
-        <select name="user" id="user" onchange="this.form.submit()">
-            <option value="">All users</option>
-            {% for user in users %}
-                <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user %}selected{% endif %}>{{ user.username }}</option>
-            {% endfor %}
-        </select>
-    </form>
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="message">
-                <strong>{{ message.user.username }}</strong>
-                <p>{{ message.content }}</p>
-                <small>{{ message.timestamp }}</small>
-            </li>
-        {% endfor %}
-    </ul>
-    <div class="add-message">
-        <h3>Add a new message</h3>
-        <form method="post" action="{% url 'add_message' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Add Message</button>
-        </form>
+    <h2>Vzkazy</h2>
+    <div class="content-container">
+        <div class="messages-container"> <!-- Přidáno messages-container -->
+            <form method="get" class="filter-form">
+                <label for="user">Filter by user:</label>
+                <select name="user" id="user" onchange="this.form.submit()">
+                    <option value="">All users</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user %}selected{% endif %}>{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message">
+                        <strong>{{ message.user.username }}</strong>
+                        <p>{{ message.content }}</p>
+                        <small>{{ message.timestamp }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="add-message-container"> <!-- Přidáno add-message-container -->
+            <h3>Přidat nový vzkaz</h3>
+            <form method="post" action="{% url 'add_message' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Přidat vzkaz</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

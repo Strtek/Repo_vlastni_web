@@ -1,48 +1,42 @@
-/* myapp/static/css/message_list.css */
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #BBF2F4;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 .container {
-    background-color: #BBF2F4;
+    background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
-    max-width: 800px;
-    margin-top: 20px;
+    margin: 20px auto;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
 }
 
-.filter-form {
-    text-align: center;
-    margin-bottom: 20px;
+.content-container {  /* Přidáno content-container */
+    display: flex;
+    justify-content: space-between;
 }
 
-.filter-form label {
-    margin-right: 10px;
+.messages-container {  /* Přidáno messages-container */
+    width: 60%;
+    padding-right: 20px;
 }
 
-.filter-form select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+.add-message-container {  /* Přidáno add-message-container */
+    width: 35%;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.messages {
+ul.messages {
     list-style-type: none;
     padding: 0;
 }
@@ -52,35 +46,21 @@ h2 {
     border-bottom: 1px solid #ddd;
 }
 
-.message:last-child {
-    border-bottom: none;
-}
-
 .message strong {
     display: block;
+    font-size: 1.2em;
     margin-bottom: 5px;
 }
 
-.add-message {
-    margin-top: 20px;
-    text-align: center;
+.message p {
+    margin: 0;
 }
 
-.add-message form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.filter-form {
+    margin-bottom: 15px;
 }
 
-.add-message textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-bottom: 10px;
-}
-
-.add-message button {
+button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -89,25 +69,6 @@ h2 {
     cursor: pointer;
 }
 
-.add-message button:hover {
+button:hover {
     background-color: #0056b3;
-}
-
-.nav-links {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.nav-links a {
-    margin: 0 10px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.nav-links a:hover {
-    text-decoration: underline;
-}
-
-.logout-form {
-    display: inline;
 }
