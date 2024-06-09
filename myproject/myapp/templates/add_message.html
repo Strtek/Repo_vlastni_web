@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Přidat vzkaz</title>
-</head>
-<body>
-    <h1>Přidat vzkaz</h1>
+{% extends 'base.html' %}
+
+{% block title %}Přidat vzkaz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Přidat nový vzkaz</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Přidat</button>
+        <button type="submit">Přidat vzkaz</button>
     </form>
-</body>
-</html>
+    <div class="nav-links">
+        <a href="{% url 'message_list' %}">Zpět na vzkazy</a>
+    </div>
+</div>
+{% endblock %}

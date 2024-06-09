@@ -1,24 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrace</title>
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
-</head>
-<body>
-    <h1>Registrace</h1>
+{% extends 'base.html' %}
+
+{% block title %}Registrace{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Registrace</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Registrovat</button>
     </form>
     <div class="nav-links">
-        <p>Už máte účet? <a href="{% url 'login' %}">Přihlaste se zde</a></p>
+        <a href="{% url 'login' %}">Přihlásit se</a> | <a href="{% url 'home' %}">Domů</a>
     </div>
-    <div class="nav-links">
-        <a href="{% url 'home' %}">Domů</a>
-    </div>
-</body>
-</html>
+</div>
+{% endblock %}

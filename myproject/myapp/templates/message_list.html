@@ -1,49 +1,35 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages</title>
-    <link rel="stylesheet" href="{% static 'css/message_list.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h2>Messages</h2>
-        <form method="get" class="filter-form">
-            <label for="user">Filter by user:</label>
-            <select name="user" id="user" onchange="this.form.submit()">
-                <option value="">All users</option>
-                {% for user in users %}
-                    <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user %}selected{% endif %}>{{ user.username }}</option>
-                {% endfor %}
-            </select>
-        </form>
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="message">
-                    <strong>{{ message.user.username }}</strong>
-                    <p>{{ message.content }}</p>
-                    <small>{{ message.timestamp }}</small>
-                </li>
+{% block title %}Vzkazy{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Messages</h2>
+    <form method="get" class="filter-form">
+        <label for="user">Filter by user:</label>
+        <select name="user" id="user" onchange="this.form.submit()">
+            <option value="">All users</option>
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user %}selected{% endif %}>{{ user.username }}</option>
             {% endfor %}
-        </ul>
-        <div class="add-message">
-            <h3>Add a new message</h3>
-            <form method="post" action="{% url 'add_message' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Add Message</button>
-            </form>
-        </div>
-        <div class="nav-links">
-            <form method="post" action="{% url 'logout' %}" class="logout-form">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
-            <a href="{% url 'home' %}">Home</a>
-        </div>
+        </select>
+    </form>
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="message">
+                <strong>{{ message.user.username }}</strong>
+                <p>{{ message.content }}</p>
+                <small>{{ message.timestamp }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="add-message">
+        <h3>Add a new message</h3>
+        <form method="post" action="{% url 'add_message' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Message</button>
+        </form>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
