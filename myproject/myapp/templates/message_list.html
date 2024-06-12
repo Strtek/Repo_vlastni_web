@@ -1,39 +1,53 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block title %}Vzkazy{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Vzkazy</h2>
-    <div class="content-container">
-        <div class="messages-container"> <!-- Přidáno messages-container -->
-            <form method="get" class="filter-form">
-                <label for="user">Filter by user:</label>
-                <select name="user" id="user" onchange="this.form.submit()">
-                    <option value="">All users</option>
+<h2>Vzkazy</h2>
+<div class="top-section">
+    <div class="filter-form">
+        <form method="get" action="{% url 'message_list' %}">
+            <div class="form-group">
+                <label for="user_filter">Uživatel:</label>
+                <select name="user" id="user_filter">
+                    <option value="">Všichni</option>
                     {% for user in users %}
-                        <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user %}selected{% endif %}>{{ user.username }}</option>
+                        <option value="{{ user.id }}" {% if user.id|stringformat:"s" == request.GET.user %}selected{% endif %}>{{ user.username }}</option>
                     {% endfor %}
                 </select>
-            </form>
-            <ul class="messages">
-                {% for message in messages %}
-                    <li class="message">
-                        <strong>{{ message.user.username }}</strong>
-                        <p>{{ message.content }}</p>
-                        <small>{{ message.timestamp }}</small>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="add-message-container"> <!-- Přidáno add-message-container -->
-            <h3>Přidat nový vzkaz</h3>
-            <form method="post" action="{% url 'add_message' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
+            </div>
+            <div class="form-group">
+                <label for="date_filter">Datum:</label>
+                <input type="date" name="date" id="date_filter" value="{{ request.GET.date }}">
+            </div>
+            <div class="form-group">
+                <button type="submit">Filtrovat</button>
+            </div>
+        </form>
+    </div>
+    <div class="add-message">
+        <h2>Přidat nový vzkaz</h2>
+        <form method="post" action="{% url 'add_message' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_content">Vzkaz:</label>
+                <textarea name="content" id="id_content" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
                 <button type="submit">Přidat vzkaz</button>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="messages-container">
+    <div class="messages-list">
+        {% for message in messages %}
+            <div class="message-item">
+                <p><strong>{{ message.user.username }}</strong> napsal(a) dne {{ message.timestamp|date:"d.m.Y H:i:s" }}:</p>
+                <p>{{ message.content }}</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

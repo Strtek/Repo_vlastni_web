@@ -9,6 +9,7 @@ from .forms import MessageForm
 from .forms import UserRegistrationForm
 from django.contrib import messages
 from django.db import IntegrityError
+from django.utils.dateparse import parse_date
 
 def home(request):
     current_time = timezone.now()
@@ -41,28 +42,31 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 @login_required
-def message_list(request):
-    user_id = request.GET.get('user')
-    if user_id:
-        messages = Message.objects.filter(user_id=user_id)
-    else:
-        messages = Message.objects.all()
-    users = User.objects.all()
-    form = MessageForm()
-    return render(request, 'message_list.html', {'messages': messages, 'form': form, 'users': users, 'selected_user': user_id})
-
-@login_required
 def add_message(request):
     if request.method == 'POST':
-        form = MessageForm(request.POST)
-        if form.is_valid():
-            message = form.save(commit=False)
-            message.user = request.user
-            message.save()
+        content = request.POST.get('content')
+        if content:
+            Message.objects.create(user=request.user, content=content)
             return redirect('message_list')
-    else:
-        form = MessageForm()
-    return render(request, 'add_message.html', {'form': form})
+    return render(request, 'add_message.html')
 
+@login_required
+def message_list(request):
+    user_filter = request.GET.get('user')
+    date_filter = request.GET.get('date')
+
+    messages = Message.objects.all().order_by('-timestamp')
+
+    if user_filter:
+        messages = messages.filter(user_id=user_filter)
+
+    if date_filter:
+        date = parse_date(date_filter)
+        if date:
+            messages = messages.filter(timestamp__date=date)
+
+    users = User.objects.all()
+
+    return render(request, 'message_list.html', {'messages': messages, 'users': users})
 def not_authorized(request):
     return render(request, 'not_authorized.html')
