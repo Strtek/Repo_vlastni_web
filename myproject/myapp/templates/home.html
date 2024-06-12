@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Stanislav Trtek - Homepage{% endblock %}
 
 {% block content %}
 <section class="about-me">
-    <h2>O mně</h2>
-    <p>Mám-li prozradit základní informace o své osobě, nelze začít jinak než zmínit moji manželku Aničku, která je mojí ozdobou a současně největší oporou. Mezi mé největší zájmy patří přírodní vědy, matematika a cokoliv spojené s elektronikou. Žena by se divila, kdybych zde nezmínil fotbal, tak dobrá, i ten je mým koníčkem. :-) Ostatně jako většina sportů a to pasivně i aktivně. Nebudu moc přehánět, když řeknu, že jsem na kole projel téměř celou Evropu. Nyní se místo kola soustředím spíše na pěší výkony a tak se v létě chystáme s Aničkou na pěší pouť do rakouského Mariazell. Baví mě i má práce, ale o té jinde na téhle stránce.</p>
+    <div class="about-me-text">
+        <h2>O mně</h2>
+        <p>Mám-li prozradit základní informace o své osobě, nelze začít jinak než zmínit moji manželku Aničku, která je mojí ozdobou a současně největší oporou. Mezi mé největší zájmy patří přírodní vědy, matematika a cokoliv spojené s elektronikou. Žena by se divila, kdybych zde nezmínil fotbal, tak dobrá, i ten je mým koníčkem. :-) Ostatně jako většina sportů a to pasivně i aktivně. Nebudu moc přehánět, když řeknu, že jsem na kole projel téměř celou Evropu. Nyní se místo kola soustředím spíše na pěší výkony a tak se v létě chystáme s Aničkou na pěší pouť do rakouského Mariazell. Baví mě i má práce, ale o té jinde na téhle stránce.</p>
+    </div>
+    <div class="about-me-photo">
+        <img src="{% static 'img/fotka.jpg' %}" alt="Stanislav Trtek">
+    </div>
 </section>
 <section class="my-work">
     <h2>Moje práce</h2>
