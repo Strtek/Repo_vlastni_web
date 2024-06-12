@@ -1,20 +1,27 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Přihlášení{% endblock %}
+{% block title %}Přihlásit se{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Přihlášení</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Přihlásit se</button>
-    </form>
-    <div class="nav-links">
-        <p>Nemáte účet? <a href="{% url 'register' %}">Registrujte se zde</a></p>
-    </div>
-    <div class="nav-links">
-        <a href="{% url 'home' %}">Domů</a>
+<div class="login-wrapper">
+    <div class="login-container user-login">
+        <h2>Přihlásit se</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Uživatelské jméno:</label>
+                <input type="text" name="username" id="id_username" required value="">
+            </div>
+            <div class="form-group">
+                <label for="id_password">Heslo:</label>
+                <input type="password" name="password" id="id_password" required value="">
+            </div>
+            <div class="form-group">
+                <button type="submit">Přihlásit se</button>
+            </div>
+        </form>
+        <p>Nemáte zatím vytvořený účet? <a href="{% url 'register' %}">Zde se můžete zaregistrovat</a></p>
     </div>
 </div>
 {% endblock %}

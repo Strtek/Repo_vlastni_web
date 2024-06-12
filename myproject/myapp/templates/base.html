@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/message_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -30,7 +31,11 @@
         </nav>
         <div class="current-time">
             <p>Dnes je: {{ current_time|date:"j. F Y H:i" }}</p>
+            {% if user.is_authenticated %}
+                <p>Jste přihlášen jako: {{ user.username }}</p>
+            {% endif %}
         </div>
+
     </header>
     <main>
         {% block content %}{% endblock %}

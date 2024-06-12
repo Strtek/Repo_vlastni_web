@@ -1,17 +1,35 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block title %}Registrace{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Registrace</h2>
-    <form method="post">
+<div class="login-container">
+    <h2>Registrovat se</h2>
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrovat</button>
+        <div class="form-group">
+            <label for="register_email">Email (bude sloužit jako přihlašovací jméno):</label>
+            <input type="email" name="email" id="register_email" required>
+        </div>
+        <div class="form-group">
+            <label for="register_name">Jméno:</label>
+            <input type="text" name="name" id="register_name" required>
+        </div>
+        <div class="form-group">
+            <label for="register_password">Heslo:</label>
+            <input type="password" name="password" id="register_password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Registrovat se</button>
+        </div>
     </form>
-    <div class="nav-links">
-        <a href="{% url 'login' %}">Přihlásit se</a> | <a href="{% url 'home' %}">Domů</a>
-    </div>
 </div>
 {% endblock %}

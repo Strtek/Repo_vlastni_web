@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Message
 from .forms import MessageForm
+from .forms import UserRegistrationForm
+from django.contrib import messages
+from django.db import IntegrityError
 
 def home(request):
     current_time = timezone.now()
@@ -17,16 +20,24 @@ def home(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('message_list')
+            email = form.cleaned_data.get('email')
+            name = form.cleaned_data.get('name')
+            password = form.cleaned_data.get('password')
+            try:
+                if User.objects.filter(username=email).exists():
+                    messages.error(request, 'Uživatel s tímto emailem již existuje.')
+                else:
+                    user = User.objects.create_user(username=email, email=email, password=password)
+                    user.first_name = name
+                    user.save()
+                    messages.success(request, 'Registrace úspěšná. Nyní se můžete přihlásit.')
+                    return redirect('login')
+            except IntegrityError:
+                messages.error(request, 'Došlo k chybě při registraci. Zkuste to prosím znovu.')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 @login_required

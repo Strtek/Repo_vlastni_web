@@ -36,6 +36,9 @@ nav a:hover {
     top: 10px;
     right: 10px;
 }
+header .user-info {
+    margin: 0;
+}
 
 main {
     padding: 20px;
