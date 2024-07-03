@@ -11,7 +11,7 @@ SECRET_KEY = 'fawq$&8z9%m0xph@&f4-j9-mijj_b%wsj(47^h&(-bqppn0wd3'
 DEBUG = True
 
 # Nastavení povolených hostitelů
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['stanislavtrtek.cz', 'www.stanislavtrtek.cz','80.211.202.17','127.0.0.1']
 
 # Aplikace Django
 INSTALLED_APPS = [
@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',  # Přidání aplikace myapp
+    'myapp',
+    # Přidání aplikace myapp
 ]
 
 MIDDLEWARE = [
@@ -86,6 +87,9 @@ USE_TZ = True
 # Statické soubory (CSS, JavaScript, obrázky)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'myapp/static']
+
+STATIC_ROOT = '/root/aplikaceStepIT/myproject/myapp/static/css/'
+MEDIA_ROOT = '/root/aplikaceStepIT/myproject/myapp/static/img/'
 
 # Výchozí primární klíčové pole
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

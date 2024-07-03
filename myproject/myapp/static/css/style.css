@@ -1,3 +1,4 @@
+/* Základní styly */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -10,11 +11,15 @@ header {
     color: white;
     padding: 10px 0;
     text-align: center;
-    position: relative; /* Přidáme relativní pozicování pro záhlaví */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
 }
 
 header h1 {
     margin: 0;
+    flex: 1 100%; /* Zajistí, že titulek bude mít vlastní řádek na menších obrazovkách */
 }
 
 nav {
@@ -31,13 +36,18 @@ nav a:hover {
     text-decoration: underline;
 }
 
-.current-time {
+.current-time, .user-info {
     position: absolute;
+}
+
+.current-time {
     top: 10px;
     right: 10px;
 }
-header .user-info {
-    margin: 0;
+
+.user-info {
+    top: 10px;
+    left: 10px;
 }
 
 main {
@@ -61,3 +71,18 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* Media Queries pro zmenšení velikosti textu a přizpůsobení layoutu na menších obrazovkách */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+    }
+
+    .current-time, .user-info {
+        position: static;
+        margin-top: 10px;
+        text-align: center;
+        width: 100%;
+    }
+}
+

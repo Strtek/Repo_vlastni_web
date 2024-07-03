@@ -70,3 +70,14 @@ def message_list(request):
     return render(request, 'message_list.html', {'messages': messages, 'users': users})
 def not_authorized(request):
     return render(request, 'not_authorized.html')
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Neplatné uživatelské jméno nebo heslo.')
+    return render(request, 'login.html')
