@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'myapp',
     # Přidání aplikace myapp
 ]
-
+AUTH_USER_MODEL = 'myapp.CustomUser'  # Správně nastavte cestu k vašemu uživatelskému modelu
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
+from .models import CustomUser, Message
 from django.utils import timezone
-from .models import Message
 from .forms import MessageForm
 from .forms import UserRegistrationForm
 from django.contrib import messages
@@ -27,10 +26,10 @@ def register(request):
             name = form.cleaned_data.get('name')
             password = form.cleaned_data.get('password')
             try:
-                if User.objects.filter(username=email).exists():
+                if CustomUser.objects.filter(username=email).exists():
                     messages.error(request, 'Uživatel s tímto emailem již existuje.')
                 else:
-                    user = User.objects.create_user(username=email, email=email, password=password)
+                    user = CustomUser.objects.create_user(username=email, email=email, password=password)
                     user.first_name = name
                     user.save()
                     messages.success(request, 'Registrace úspěšná. Nyní se můžete přihlásit.')
@@ -55,19 +54,23 @@ def message_list(request):
     user_filter = request.GET.get('user')
     date_filter = request.GET.get('date')
 
-    messages = Message.objects.all().order_by('-timestamp')
-
-    if user_filter:
-        messages = messages.filter(user_id=user_filter)
+    if request.user.is_admin:
+        messages_query = Message.objects.all()
+        if user_filter:
+            messages_query = messages_query.filter(user__id=user_filter)
+    else:
+        messages_query = Message.objects.filter(user=request.user)
 
     if date_filter:
         date = parse_date(date_filter)
         if date:
-            messages = messages.filter(timestamp__date=date)
+            messages_query = messages_query.filter(timestamp__date=date)
 
-    users = User.objects.all()
+    # Pro admina přidáme seznam uživatelů pro možnost filtrování
+    users = CustomUser.objects.all() if request.user.is_admin else CustomUser.objects.none()
 
-    return render(request, 'message_list.html', {'messages': messages, 'users': users})
+    return render(request, 'message_list.html', {'messages': messages_query, 'users': users})
+
 def not_authorized(request):
     return render(request, 'not_authorized.html')
 def user_login(request):
