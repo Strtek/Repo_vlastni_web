@@ -1,11 +1,14 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Definice BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Vygenerovaný tajný klíč
-SECRET_KEY = 'fawq$&8z9%m0xph@&f4-j9-mijj_b%wsj(47^h&(-bqppn0wd3'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Zapnutí režimu ladění
 DEBUG = True
@@ -40,7 +43,7 @@ ROOT_URLCONF = 'myproject.urls'  # Přidání ROOT_URLCONF
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'myapp/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,3 +100,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Přesměrování po přihlášení a odhlášení
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get("EMAIL HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL PORT", 587))
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", 'stanislavtrtek3@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # nebo aplikační heslo
+DEFAULT_FROM_EMAIL = 'stanislavtrtek3@gmail.com'
