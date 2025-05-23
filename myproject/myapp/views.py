@@ -1,14 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
-from .models import CustomUser, Message
+from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.dateparse import parse_date
+from django.db import IntegrityError
 from django.utils import timezone
 from .forms import MessageForm
 from .forms import UserRegistrationForm
-from django.contrib import messages
-from django.db import IntegrityError
-from django.utils.dateparse import parse_date
+from .models import CustomUser, Message
+
+User = get_user_model()
 
 def home(request):
     current_time = timezone.now()
@@ -31,8 +39,20 @@ def register(request):
                 else:
                     user = CustomUser.objects.create_user(username=email, email=email, password=password)
                     user.first_name = name
+                    user.is_active = False  # deaktivace do potvrzení
                     user.save()
-                    messages.success(request, 'Registrace úspěšná. Nyní se můžete přihlásit.')
+
+                    current_site = get_current_site(request)
+                    subject = 'Potvrďte svou registraci'
+                    message = render_to_string('activation_email.html', {
+                        'user': user,
+                        'domain': current_site.domain,
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                    })
+                    user.email_user(subject, message)
+
+                    messages.success(request, 'Registrace proběhla úspěšně. Zkontrolujte svůj e-mail pro potvrzení registrace.')
                     return redirect('login')
             except IntegrityError:
                 messages.error(request, 'Došlo k chybě při registraci. Zkuste to prosím znovu.')
@@ -73,6 +93,7 @@ def message_list(request):
 
 def not_authorized(request):
     return render(request, 'not_authorized.html')
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -84,3 +105,19 @@ def user_login(request):
         else:
             messages.error(request, 'Neplatné uživatelské jméno nebo heslo.')
     return render(request, 'login.html')
+
+def activate(request, uidb64, token):
+    from django.utils.encoding import force_str
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Registrace potvrzena, nyní se můžete přihlásit.')
+        return redirect('login')
+    else:
+        return render(request, 'activation_invalid.html')

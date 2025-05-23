@@ -12,6 +12,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Zapnutí režimu ladění
 DEBUG = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000
 
 # Nastavení povolených hostitelů
 ALLOWED_HOSTS = ['stanislavtrtek.cz', 'www.stanislavtrtek.cz','80.211.202.17','127.0.0.1']
@@ -84,7 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'cs-cz'
 TIME_ZONE = 'Europe/Prague'
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 # Statické soubory (CSS, JavaScript, obrázky)
@@ -103,7 +107,7 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get("EMAIL HOST")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = int(os.environ.get("EMAIL PORT", 587))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
 EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"

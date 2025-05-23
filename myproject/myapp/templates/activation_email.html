@@ -1,0 +1,14 @@
+{% autoescape off %}
+Ahoj {{ user.first_name }},
+
+děkuji za registraci na mém webu!
+
+Pro aktivaci svého účtu klikni prosím na následující odkaz:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Pokud jste se neregistroval(a), tento e-mail ignorujte.
+
+Děkujeme,
+Tým stanislavtrtek.cz
+{% endautoescape %}
