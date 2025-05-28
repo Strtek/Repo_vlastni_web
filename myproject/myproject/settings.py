@@ -19,7 +19,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 31536000
 
 # Nastavení povolených hostitelů
-ALLOWED_HOSTS = ['stanislavtrtek.cz', 'www.stanislavtrtek.cz','80.211.202.17','127.0.0.1']
+ALLOWED_HOSTS = ['stanislavtrtek.cz', 'www.stanislavtrtek.cz','3.123.25.184','127.0.0.1']
 
 # Aplikace Django
 INSTALLED_APPS = [
