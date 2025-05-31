@@ -11,6 +11,39 @@
     <link rel="stylesheet" href="{% static 'css/message_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     {% block extra_head %}{% endblock %}
+    <!-- 1. CSS knihovny CookieConsent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+    <!-- 2. JS knihovny CookieConsent -->
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+
+    <!-- 3. Vlastní inicializace po načtení -->
+    <script>
+    window.addEventListener("load", function(){
+      window.cookieconsent.initialise({
+        palette: {
+          popup: { background: "#000" },
+          button: { background: "#f1d600" }
+        },
+        type: "opt-in",
+        content: {
+          message: "Používáme cookies pro správné fungování webu.",
+          allow: "Povolit vše",
+          deny: "Jen technické",
+          link: "Více informací",
+          href: "/cookies/"
+        },
+        onInitialise: function (status) {
+          if (status == "allow" || status == "dismiss") {
+            document.cookie = "cookie_consent=full; path=/";
+          } else if (status == "deny") {
+            document.cookie = "cookie_consent=technical; path=/";
+          }
+        }
+      });
+    });
+    </script>
+
 </head>
 <body>
     <header>

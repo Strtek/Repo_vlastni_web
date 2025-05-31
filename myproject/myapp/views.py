@@ -121,3 +121,6 @@ def activate(request, uidb64, token):
         return redirect('login')
     else:
         return render(request, 'activation_invalid.html')
+
+def cookies_info(request):
+    return render(request, 'cookies.html')
