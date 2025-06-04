@@ -23,6 +23,10 @@ SECURE_HSTS_SECONDS = 31536000
 # Nastavení povolených hostitelů
 ALLOWED_HOSTS = ['stanislavtrtek.cz', 'www.stanislavtrtek.cz','3.123.25.184','127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://3.123.25.184',
+    'https://3.123.25.184',
+]
 # Aplikace Django
 INSTALLED_APPS = [
     'django.contrib.admin',
