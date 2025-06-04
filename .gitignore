@@ -3,3 +3,5 @@ myproject/nohup.out
 myproject/venv/
 __pycache__/
 *.pyc
+myproject/output.log
+myproject/server.log
