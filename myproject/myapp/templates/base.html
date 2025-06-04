@@ -76,6 +76,12 @@
     <footer>
         <p>&copy; 2023 Stanislav Trtek</p>
     </footer>
+    <script>
+    fetch('/get-csrf/', {
+        method: 'GET',
+        credentials: 'same-origin'
+    });
+    </script>
 </body>
 </html>
 

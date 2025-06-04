@@ -12,8 +12,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Zapnutí režimu ladění
 DEBUG = True
+
+CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = True
-CSFR_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -38,7 +39,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'myproject.middleware.cookie_consent.CookieConsentMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

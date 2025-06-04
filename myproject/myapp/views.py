@@ -1,17 +1,27 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib import messages
+
+from django.core.mail import send_mail
+
+from django.db import IntegrityError
+
+from django.http import JsonResponse
+
+from django.shortcuts import render, redirect
+
+from django.template.loader import render_to_string
+
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
-from django.contrib import messages
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
 from django.utils.dateparse import parse_date
-from django.db import IntegrityError
 from django.utils import timezone
+
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from .forms import MessageForm
 from .forms import UserRegistrationForm
 from .models import CustomUser, Message
@@ -124,3 +134,7 @@ def activate(request, uidb64, token):
 
 def cookies_info(request):
     return render(request, 'cookies.html')
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({'status': 'ok'})

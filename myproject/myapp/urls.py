@@ -28,5 +28,6 @@ urlpatterns = [
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 
     path('cookies/', views.cookies_info, name='cookies_info'),
+    path("get-csrf/", views.get_csrf_token, name="get_csrf_token"),
 
 ]
